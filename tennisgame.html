@@ -1,6 +1,9 @@
+<!DOCTYPE html>
 <html>
     <head>
-
+        <style>
+            h1{text-align: center;}
+        </style>
     </head>
     <body>
         <h1>Let's play Tennis!</h1>
@@ -18,6 +21,7 @@
     const WINNING_SCORE = 3;
 
     var showingWinScreen = false;
+    var paused = true
 
     var paddle1Y= 250;
     var paddle2Y= 250;
@@ -36,10 +40,14 @@
     }
 
     function handleMouseClick(evt){
-                if (showingWinScreen){
+                if (paused){
+                    paused = false;
+                } else if (showingWinScreen){
                     player1Score = 0;
                     player2Score = 0;
                     showingWinScreen = false;
+                } else {
+                    paused = true;
                 }
             }
 
@@ -81,11 +89,9 @@
         }
 
         function moveEverything(){
-            if (showingWinScreen){
+            if (showingWinScreen || paused){
                 return;
-            } else{
-
-            }
+            } 
             computerMovement()
             ballX = ballX + ballSpeedX;
             ballY = ballY + ballSpeedY;
@@ -131,7 +137,7 @@
         function drawEverything(){
             //this is the canvas
             colorRect(0,0,canvas.width, canvas.height, 'black');
-            if (showingWinScreen){
+            if (showingWinScreen || paused){
                 canvasContext.fillStyle = 'white';
                 if (player1Score >= WINNING_SCORE){
                     canvasContext.fillText("Left Player WON!", 350, 200);
@@ -140,9 +146,7 @@
                 };
                 canvasContext.fillText("click to continue", 350, 500);
                 return;
-            } else{
-                
-            }
+            } 
 
             drawNet();
             //this is the left player paddle
